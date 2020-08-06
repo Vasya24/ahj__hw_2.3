@@ -8,9 +8,9 @@ xhr.responseType = 'json'
 xhr.send()
 
 xhr.onload = () => {
-    if (xhr.status === 200) {
 
-    cont.innerHTML = `<table id="table">
+      
+    let c = `<table id="table">
     <tr>
     <td class="td">Айди <i class="fa fa-long-arrow-down" aria-hidden="true" id="arrow"></i></td>
     <td class="td">Название</td>
@@ -48,11 +48,19 @@ xhr.onload = () => {
 <td class="td">${xhr.response[4].imdb}</td>
 </tr>
   <table>`
-}
+
+  cont.innerHTML = c;
 let arrow = document.getElementById("arrow");
-let table = Array.of(document.getElementsByClassName('td'));
+
 arrow.onclick = () => {
-  xhr.response.sort((prev, next) => prev.id - next.id)
+  xhr.open('GET', 'src/data.json');
+xhr.responseType = 'json'
+
+xhr.send();
+xhr.onload = () => {
+  xhr.response.sort((prev, next) => prev.id - next.id);
+  cont.innerHTML = c
+}
 }
 }
 
