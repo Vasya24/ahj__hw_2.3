@@ -10,10 +10,9 @@ xhr.send()
 xhr.onload = () => {
     if (xhr.status === 200) {
 
-    xhr.response.sort()
     cont.innerHTML = `<table id="table">
     <tr>
-    <td class="td">Айди <i class="fa fa-long-arrow-down" aria-hidden="true"></i></td>
+    <td class="td">Айди <i class="fa fa-long-arrow-down" aria-hidden="true" id="arrow"></i></td>
     <td class="td">Название</td>
     <td class="td">Год выхода</td>
     <td class="td">Рейтинг на imdb</td>
@@ -50,6 +49,10 @@ xhr.onload = () => {
 </tr>
   <table>`
 }
+let arrow = document.getElementById("arrow");
+let table = Array.of(document.getElementsByClassName('td'));
+arrow.onclick = () => {
+  xhr.response.sort((prev, next) => prev.id - next.id)
+}
 }
 
-let arrow = document.querySelector('.fa-long-arrow-down');
