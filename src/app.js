@@ -64,3 +64,7 @@ xhr.onload = () => {
 }
 }
 
+// fetch('src/data.json')
+// .then((response) = {
+//   cont.innerHTML = response.json()
+// })
