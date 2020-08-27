@@ -1,70 +1,112 @@
-let cont = document.querySelector('.container');
+import sortIdUp from './components/Sort';
+import sortIdDown from './components/Sort';
+import createTable from './components/CreateTable';
 
+const board = document.querySelector('.board tr');
 
-let xhr = new XMLHttpRequest();
-xhr.open('GET', 'src/data.json');
-xhr.responseType = 'json'
+const movies = [
+  {
+    id: 26,
+    title: 'Побег из Шоушенка',
+    imdb: 9.30,
+    year: 1994,
+  },
+  {
+    id: 25,
+    title: 'Крёстный отец',
+    imdb: 9.20,
+    year: 1972,
+  },
+  {
+    id: 27,
+    title: 'Крёстный отец 2',
+    imdb: 9.00,
+    year: 1974,
+  },
+  {
+    id: 1047,
+    title: 'Тёмный рыцарь',
+    imdb: 9.00,
+    year: 2008,
+  },
+  {
+    id: 223,
+    title: 'Криминальное чтиво',
+    imdb: 8.90,
+    year: 1994,
+  },
+];
 
-xhr.send()
+const deleteTable = () => {
+  while (board.nextElementSibling) {
+    board.nextElementSibling.remove(board.nextElementSibling);
+  }
+};
 
-xhr.onload = () => {
+const arrow = (name) => {
+  const elementArrow = document.querySelector(name);
+  return elementArrow;
+};
 
-      
-    let c = `<table id="table">
-    <tr>
-    <td class="td">Айди <i class="fa fa-long-arrow-down" aria-hidden="true" id="arrow"></i></td>
-    <td class="td">Название</td>
-    <td class="td">Год выхода</td>
-    <td class="td">Рейтинг на imdb</td>
-    </tr>
-    <tr class="row">
-    <td class="td">${xhr.response[0].id}</td>
-    <td class="td">${xhr.response[0].title}</td>
-    <td class="td">${xhr.response[0].year}</td>
-    <td class="td">${xhr.response[0].imdb}</td>
-  </tr>
-  <tr class="row">
-  <td class="td">${xhr.response[1].id}</td>
-  <td class="td">${xhr.response[1].title}</td>
-  <td class="td">${xhr.response[1].year}</td>
-  <td class="td">${xhr.response[1].imdb}</td>
-</tr>
-<tr class="row">
-<td class="td">${xhr.response[2].id}</td>
-<td class="td">${xhr.response[2].title}</td>
-<td class="td">${xhr.response[2].year}</td>
-<td class="td">${xhr.response[2].imdb}</td>
-</tr>
-<tr class="row">
-<td class="td">${xhr.response[3].id}</td>
-<td class="td">${xhr.response[3].title}</td>
-<td class="td">${xhr.response[3].year}</td>
-<td class="td">${xhr.response[3].imdb}</td>
-</tr>
-<tr class="row">
-<td class="td">${xhr.response[4].id}</td>
-<td class="td">${xhr.response[4].title}</td>
-<td class="td">${xhr.response[4].year}</td>
-<td class="td">${xhr.response[4].imdb}</td>
-</tr>
-  <table>`
+const sortTable = () => {
+  let counter = 0;
 
-  cont.innerHTML = c;
-let arrow = document.getElementById("arrow");
+  setInterval(() => {
+    setTimeout(() => {
+      deleteTable();
+      movies.sort(sortIdUp('id'));
+      arrow('[data-head=id]').textContent = 'id ↓';
+      arrow('[data-head=imdb]').textContent = 'imdb';
+      createTable(movies, board);
+    }, counter += 2000);
+    setTimeout(() => {
+      deleteTable();
+      arrow('[data-head=id]').textContent = 'id ↑';
+      movies.sort(sortIdDown('id'));
+      createTable(movies, board);
+    }, counter += 2000);
+    setTimeout(() => {
+      deleteTable();
+      movies.sort(sortIdUp('title'));
+      arrow('[data-head=id]').textContent = 'id';
+      arrow('[data-head=title]').textContent = 'title ↓';
+      createTable(movies, board);
+    }, counter += 2000);
+    setTimeout(() => {
+      deleteTable();
+      movies.sort(sortIdDown('title'));
+      arrow('[data-head=title]').textContent = 'title ↑';
+      createTable(movies, board);
+    }, counter += 2000);
+    setTimeout(() => {
+      deleteTable();
+      movies.sort(sortIdUp('year'));
+      arrow('[data-head=title]').textContent = 'title';
+      arrow('[data-head=year]').textContent = 'year ↓';
+      createTable(movies, board);
+    }, counter += 2000);
+    setTimeout(() => {
+      deleteTable();
+      movies.sort(sortIdDown('year'));
+      arrow('[data-head=year]').textContent = 'year ↑';
+      createTable(movies, board);
+    }, counter += 2000);
+    setTimeout(() => {
+      deleteTable();
+      movies.sort(sortIdUp('imdb'));
+      arrow('[data-head=year]').textContent = 'year';
+      arrow('[data-head=imdb]').textContent = 'imdb ↓';
+      createTable(movies, board);
+    }, counter += 2000);
+    setTimeout(() => {
+      deleteTable();
+      movies.sort(sortIdDown('imdb'));
+      arrow('[data-head=imdb]').textContent = 'imdb ↑';
+      createTable(movies, board);
+    }, counter += 2000);
+  }, counter);
+};
 
-arrow.onclick = () => {
-  xhr.open('GET', 'src/data.json');
-xhr.responseType = 'json'
+sortTable();
 
-xhr.send();
-xhr.onload = () => {
-  xhr.response.sort((prev, next) => prev.id - next.id);
-  cont.innerHTML = c
-}
-}
-}
-
-// fetch('src/data.json')
-// .then((response) = {
-//   cont.innerHTML = response.json()
-// })
+export default movies;
